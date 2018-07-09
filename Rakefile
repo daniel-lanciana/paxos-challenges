@@ -9,9 +9,8 @@ task default: :spec
 
 task :replace_wildcards, [:input] do |_task, args|
   running_time = Benchmark.realtime do
-    # Use 'puts' instead of 'p' to render newlines
-    puts BinaryWildcardReplacer.replace args[:input]
+    BinaryWildcardReplacer.replace args[:input]
   end
 
-  puts "\nRunning time: #{running_time} milliseconds"
+  puts "\nRunning time: #{running_time.round(2)} milliseconds"
 end

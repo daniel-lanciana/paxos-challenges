@@ -3,17 +3,14 @@
 # Takes a string input and replaces each 'x' or 'X' with both '0' and '1' (over multiple lines)
 module BinaryWildcardReplacer
   WILDCARD_CHARACTER = 'X'
-  # Ruby only interprets escape sequences in double quoted strings
-  OUTPUT_DELIMITER = "\n"
 
   def self.replace(input)
     iterate_all_combinations(input.chars, wildcard_positions_to_array(input))
-      .join(OUTPUT_DELIMITER)
   end
 
   def self.iterate_all_combinations(input_array, wildcards)
-    (0..zero_based_iteration_count(wildcards)).each_with_index.map do |index|
-      replace_wildcards(input_array,
+    (0..zero_based_iteration_count(wildcards)).each_with_index.each do |index|
+      puts replace_wildcards(input_array,
                         wildcards,
                         number_as_binary_array(index, wildcards.length))
     end
