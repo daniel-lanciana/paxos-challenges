@@ -35,7 +35,9 @@ Difficult to determine and overly complex.
 3. Increment counter and call self
 4. Stop when all Xs are 1s
 
-A less obvious choice as we know the length of the input. Superior performance as we don't need to iterate and record the positions of wildcards. If I get time, will refactor my current implementation. 
+A less obvious choice as we know the length of the input, but slightly cleaner. Still need to iterate and record the positions of wildcards to allow for positional substitutions.
+
+Implemented recursion in a **recursive** branch.
 
 ### Design
 
