@@ -28,6 +28,8 @@ String manipulation costly, lots of replacements tracking migration of 1s from r
 
 Difficult to determine and overly complex.
 
+### Branches
+
 #### Recursion
 
 1. Replace Xs with binary representation of current counter (starting at 0)
@@ -38,8 +40,6 @@ Difficult to determine and overly complex.
 - A less obvious choice as we know the length of the input, but slightly cleaner
 - Still need to iterate and record the positions of wildcards to allow for positional substitutions
 - Crashes for 15+ wildcards with `SystemStackError: stack level too deep`
-
-Implemented in the **recursive** branch.
 
 ### Design
 
