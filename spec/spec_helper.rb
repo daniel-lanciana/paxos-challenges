@@ -1,0 +1,1 @@
+# Rspec configuration goes here
