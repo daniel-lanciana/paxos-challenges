@@ -1,4 +1,4 @@
-# Placeholder Readme
+# Wildcard Binary Counting
 
 ### Problem
 
