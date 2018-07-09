@@ -35,9 +35,11 @@ Difficult to determine and overly complex.
 3. Increment counter and call self
 4. Stop when all Xs are 1s
 
-A less obvious choice as we know the length of the input, but slightly cleaner. Still need to iterate and record the positions of wildcards to allow for positional substitutions.
+- A less obvious choice as we know the length of the input, but slightly cleaner
+- Still need to iterate and record the positions of wildcards to allow for positional substitutions
+- Crashes for 15+ wildcards with `SystemStackError: stack level too deep`
 
-Implemented recursion in a **recursive** branch.
+Implemented in the **recursive** branch.
 
 ### Design
 
