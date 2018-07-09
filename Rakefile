@@ -12,5 +12,5 @@ task :replace_wildcards, [:input] do |_task, args|
     BinaryWildcardReplacer.replace args[:input]
   end
 
-  puts "\nRunning time: #{running_time.round(2)} milliseconds"
+  puts "\nRunning time: #{running_time.round(2)} seconds"
 end
