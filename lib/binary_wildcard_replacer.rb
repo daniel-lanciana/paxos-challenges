@@ -1,24 +1,25 @@
 # frozen_string_literal: true
 
-# Takes a string input and replaces each 'x' or 'X' with both '0' and '1' (over multiple lines)
+# Takes a string input and replaces each 'x' or 'X' with both '0' and '1'
+# (over multiple lines)
 module BinaryWildcardReplacer
   WILDCARD_CHARACTER = 'X'
 
   def self.replace(input)
-    iterate_all_combinations(input.chars, wildcard_positions_to_array(input))
+    recursively input.chars, wildcard_positions_to_array(input), 0
   end
 
-  def self.iterate_all_combinations(input_array, wildcards)
-    (0..zero_based_iteration_count(wildcards)).each_with_index.each do |index|
-      puts replace_wildcards(input_array,
-                        wildcards,
-                        number_as_binary_array(index, wildcards.length))
-    end
+  def self.recursively(input_array, wildcards, counter)
+    puts replace_wildcards(input_array,
+                           wildcards,
+                           number_as_binary_array(counter, wildcards.length))
+    recursively(input_array, wildcards, counter + 1) if
+        replaced_all_variables?(counter, wildcards)
   end
 
-  def self.zero_based_iteration_count(wildcards)
-    # 2 ^ number of wildcards (e.g. 2 wildcards = 4 outputs [00, 01, 10, 11], 3 = 8)
-    2**wildcards.length - 1
+  def self.replaced_all_variables?(counter, wildcards)
+    # 2 ^ number of wildcards (e.g. 2 wildcards = 4 outputs [00, 01, 10, 11])
+    counter < (2**wildcards.length - 1)
   end
 
   def self.number_as_binary_array(number, fixed_length)
