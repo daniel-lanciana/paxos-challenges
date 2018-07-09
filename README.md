@@ -9,7 +9,7 @@ Xs are considered wildcards (i.e. variables), 0/1s are considered constants.
 
 ### Analysis
 
-Approaches:
+Considered approaches:
 
 #### Replace Xs in the string
 
@@ -39,7 +39,9 @@ A less obvious choice as we know the length of the input. Superior performance a
 
 ### Design
 
-Steps:
+Implemented approach:
+
+#### Steps
 
 1. Convert the input to a character array (for better replacement performance)
 2. Gather input string positions of all wildcards
@@ -47,7 +49,7 @@ Steps:
 4. Convert each iteration index (starting at 0) to a fixed-length (to the number of wildcards) binary array
 5. Replace the wildcards from the input array with the binary array from step 4
 
-Performance:
+#### Performance
 
 - Leverages integers for binary counting (rather than manipulate 0/1s directly)
 - Arrays for faster character replacement
@@ -85,10 +87,10 @@ bundle exec rake replace_wildcards['1XX0']
 
 ### Benchmarks
 
-Performed on a humble laptop.
+Performed on a humble laptop:
 
 - 10 wildcards, 0.01s
 - 15 wildcards, 0.45s
 - 20 wildcards, 45.8s
 
-Ran a test with 100 wildcards for 5+ minutes, which didn't crash but would take a long time to complete!
+Ran a test with 100 wildcards for 5+ minutes, which didn't crash -- but would take a long time to complete!
