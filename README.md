@@ -30,7 +30,7 @@ Difficult to determine and overly complex.
 
 ### Branches
 
-#### Recursion
+#### recursion
 
 1. Replace Xs with binary representation of current counter (starting at 0)
 2. Print
