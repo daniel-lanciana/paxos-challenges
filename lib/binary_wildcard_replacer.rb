@@ -3,7 +3,8 @@
 # Takes a string input and replaces each 'x' or 'X' with both '0' and '1' (over multiple lines)
 module BinaryWildcardReplacer
   WILDCARD_CHARACTER = 'X'
-  OUTPUT_DELIMITER = '\n'
+  # Ruby only interprets escape sequences in double quoted strings
+  OUTPUT_DELIMITER = "\n"
 
   def self.replace(input)
     iterate_all_combinations(input.chars, wildcard_positions_to_array(input))
