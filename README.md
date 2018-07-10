@@ -58,7 +58,7 @@ Implemented approach:
 - Leverages integers for binary counting (rather than manipulate 0/1s directly)
 - Arrays for faster character replacement
 - Stream print output rather than returning (simpler, less memory, output progress during large operations)
-- O(1 + 2^N) complexity, where N are the number of wildcards (scan array for wildcards, each output)
+- O(N + 2^N) complexity, where N are the number of wildcards (scan array for wildcards, each output)
 
 ### Features
 
