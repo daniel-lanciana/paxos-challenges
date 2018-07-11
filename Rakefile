@@ -16,12 +16,20 @@ task :replace_wildcards, [:input] do |_task, args|
   puts "\nRunning time: #{running_time.round(2)} seconds"
 end
 
-task :select_gifts, [:file_path, :balance, :max_gifts] do |_task, args|
+task :select_gifts, [:file_path,
+                     :balance,
+                     :min_outputs,
+                     :max_outputs] do |_task, args|
+
   running_time = Benchmark.realtime do
     if args[:max_gifts]
-      puts GiftCardSelector.select args[:file_path], args[:balance], args[:max_gifts].to_i
+      puts GiftCardSelector.select args[:file_path],
+                                   args[:balance],
+                                   args[:min_outputs].to_i,
+                                   args[:max_outputs].to_i
     else
-      puts GiftCardSelector.select args[:file_path], args[:balance]
+      puts GiftCardSelector.select args[:file_path],
+                                   args[:balance]
     end
   end
 

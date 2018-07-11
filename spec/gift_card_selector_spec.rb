@@ -9,61 +9,74 @@ describe '#gift_card_selector' do
 
   describe 'with 1 max gift' do
     it 'should find no matches' do
-      expect(GiftCardSelector.select(input_path_1, 400, 1, 1)).to eq('Not possible')
+      expect(GiftCardSelector.select(input_path_1, 400, 1, 1))
+        .to eq('Not possible')
     end
 
     it 'should find match with no remainder' do
-      expect(GiftCardSelector.select(input_path_1, 2000, 1, 1)).to eq('Earmuffs 2000')
+      expect(GiftCardSelector.select(input_path_1, 2000, 1, 1))
+        .to eq('Earmuffs 2000')
     end
 
     it 'should find match with remainder' do
-      expect(GiftCardSelector.select(input_path_1, 2500, 1, 1)).to eq('Earmuffs 2000')
+      expect(GiftCardSelector.select(input_path_1, 2500, 1, 1))
+        .to eq('Earmuffs 2000')
     end
 
     it 'should find match with remainder' do
-      expect(GiftCardSelector.select(input_path_1, 1600, 1, 1)).to eq('Headphones 1400')
+      expect(GiftCardSelector.select(input_path_1, 1600, 1, 1))
+        .to eq('Headphones 1400')
     end
 
     it 'should find first match' do
-      expect(GiftCardSelector.select(input_path_1, 500, 1, 1)).to eq('Candy Bar 500')
+      expect(GiftCardSelector.select(input_path_1, 500, 1, 1))
+        .to eq('Candy Bar 500')
     end
 
     it 'should find last match' do
-      expect(GiftCardSelector.select(input_path_1, 6000, 1, 1)).to eq('Bluetooth Stereo 6000')
+      expect(GiftCardSelector.select(input_path_1, 6000, 1, 1))
+        .to eq('Bluetooth Stereo 6000')
     end
   end
 
   describe 'with 2 max gifts' do
     it 'should find no matches' do
-      expect(GiftCardSelector.select(input_path_1, 1100)).to eq('Not possible')
+      expect(GiftCardSelector.select(input_path_1, 1100))
+        .to eq('Not possible')
     end
 
     it 'should find 2 matches with no remainder' do
-      expect(GiftCardSelector.select(input_path_1, 2500)).to eq('Candy Bar 500, Earmuffs 2000')
+      expect(GiftCardSelector.select(input_path_1, 2500))
+        .to eq('Candy Bar 500, Earmuffs 2000')
     end
 
     it 'should find 2 matches with remainder' do
-      expect(GiftCardSelector.select(input_path_1, 2300)).to eq('Paperback Book 700, Headphones 1400')
+      expect(GiftCardSelector.select(input_path_1, 2300))
+        .to eq('Paperback Book 700, Headphones 1400')
     end
 
     it 'should find last 2 matches' do
-      expect(GiftCardSelector.select(input_path_1, 10_000)).to eq('Earmuffs 2000, Bluetooth Stereo 6000')
+      expect(GiftCardSelector.select(input_path_1, 10_000))
+        .to eq('Earmuffs 2000, Bluetooth Stereo 6000')
     end
   end
 
   describe 'when optimal solution is in the middle' do
     it 'should find 2 matches with no remainder' do
-      expect(GiftCardSelector.select(input_path_2, 97)).to eq('Detergent 48, Headphones 49')
+      expect(GiftCardSelector.select(input_path_2, 97))
+        .to eq('Detergent 48, Headphones 49')
     end
   end
 
   describe 'with 3 max gifts' do
     it 'should find no matches' do
-      expect(GiftCardSelector.select(input_path_1, 1100, 2, 3)).to eq('Not possible')
+      expect(GiftCardSelector.select(input_path_1, 1100, 2, 3))
+        .to eq('Not possible')
     end
 
     it 'should find 3 matches with no remainder' do
-      expect(GiftCardSelector.select(input_path_1, 9000, 3, 3)).to eq('Detergent 1000, Earmuffs 2000, Bluetooth Stereo 6000')
+      expect(GiftCardSelector.select(input_path_1, 9000, 3, 3))
+        .to eq('Detergent 1000, Earmuffs 2000, Bluetooth Stereo 6000')
     end
   end
 end

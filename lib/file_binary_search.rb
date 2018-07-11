@@ -8,23 +8,25 @@ module FileBinarySearch
   MIN_LINE_LENGTH = 4
   DELIMITER = ', '
 
-  def self.binary_search(file, parser, exclusions, target, lower = 0, upper = file.size,
-                         closest_match = nil)
+  def self.binary_search(file, parser, exclusions, target, lower = 0,
+                         upper = file.size, closest_match = nil)
 
     return closest_match if end_of_file_reached?(lower, upper)
 
     line = get_middle_line!(file, lower, upper)
     line_amount = parser.parse_line_amount(line)
 
-    if line_amount == target
-      return line
-    elsif line_amount < target
+    return line if line_amount == target
+
+    if line_amount < target
       closest_match = line unless exclusions.include?(line)
       # Set lower to the end of the line
-      binary_search file, parser, exclusions, target, file.pos + line.length, upper, closest_match
+      binary_search file, parser, exclusions, target,
+                    file.pos + line.length, upper, closest_match
     else
       # Set upper to the start of the line
-      binary_search file, parser, exclusions, target, lower, file.pos, closest_match
+      binary_search file, parser, exclusions, target, lower,
+                    file.pos, closest_match
     end
   end
 
@@ -39,7 +41,7 @@ module FileBinarySearch
   end
 
   def self.goto_middle_of_file!(file, lower, upper)
-    file.seek (lower + upper) / 2
+    file.seek((lower + upper) / 2)
   end
 
   def self.get_full_line(file)
