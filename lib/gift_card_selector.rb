@@ -4,32 +4,46 @@
 # from the loaded file of gift prices. If no matches found outputs 'Not possible'.
 module GiftCardSelector
   ERROR_MSG = 'Not possible'
-  INPUT_DELIMITER = ', '
+  DELIMITER = ', '
   NEWLINE_CHARACTER = "\n"
-  DEFAULT_GIFTS = 2
+  DEFAULT_MIN = 2
+  DEFAULT_MAX = 2
   MIN_LINE_LENGTH = 4
 
-  def self.select(path, amount, max_gifts = DEFAULT_GIFTS)
+  def self.select(path, amount, min_outputs = DEFAULT_MIN, max_outputs = DEFAULT_MAX)
     gifts = []
 
     # get the lowest item, don't accept anything with 2 or more that is greater than amount - lowest
 
     file = open_file(path)
-    lowest = parse_line_amount(file.gets)
+    lowest_amount = parse_line_amount(file.gets)
+    exclusions = []
 
-    (1..max_gifts).each do |index|
-      previous_amount = gifts.last ? gifts.last[:amount] : amount
-      previous_amounts = gifts.inject(0) { |sum, gift| sum + gift[:amount] }
-
-      ideal_amount = amount.to_i - ((max_gifts > 1) && (index == 1) ? lowest : previous_amounts)
-      ideal_amount = (previous_amount < ideal_amount) ? previous_amount - 1 : ideal_amount
-
-      result = binary_search(file, ideal_amount)
-
-      gifts << build_gift_obj_from_line(result) if result
+    (1..max_outputs).each do |index|
+      result = binary_search(file, exclusions, amount_to_search(gifts, amount, min_outputs, index, lowest_amount))
+      gifts << build_gift_obj_from_line(result) and exclusions << result if result
     end
 
-    gifts.count == max_gifts ? gifts.reverse.map { |gift| gift[:label] }.join(', ') : ERROR_MSG
+    build_output_from_array gifts, min_outputs, max_outputs
+  end
+
+  def self.amount_to_search(results, balance, min_outputs, iteration, lowest_amount)
+    # If we require more than 1 result and this is the first iteration, deduct
+    # the lowest item from the balance (as we can't select an amount greater with no
+    # corresponding match)
+    balance.to_i - (min_outputs > iteration && iteration == 1 ? lowest_amount : total_amounts_selected(results))
+  end
+
+  def self.total_amounts_selected(results)
+    results.inject(0) { |sum, result| sum + result[:amount] }
+  end
+
+  def self.build_output_from_array(results, min_outputs, max_outputs)
+    valid_number_of_selections?(results, min_outputs, max_outputs) ? results.reverse.map { |result| result[:label] }.join(DELIMITER) : ERROR_MSG
+  end
+
+  def self.valid_number_of_selections?(array, min, max)
+    array.count >= min && array.count <= max
   end
 
   def self.open_file(path)
@@ -38,7 +52,7 @@ module GiftCardSelector
     puts "Couldn't open file '#{"#{Dir.pwd}/#{path}"}'...please check the path"
   end
 
-  def self.binary_search(file, target, lower=0, upper=file.size, closest_match=nil)
+  def self.binary_search(file, exclusions, target, lower=0, upper=file.size, closest_match=nil)
     return closest_match if end_of_file_reached?(lower, upper)
 
     line = get_middle_line!(file, lower, upper)
@@ -47,12 +61,12 @@ module GiftCardSelector
     if line_amount == target
       return line
     elsif line_amount < target
-      closest_match = line
+      closest_match = line unless exclusions.include?(line)
       # Set lower to the end of the line
-      binary_search file, target, file.pos + line.length, upper, closest_match
+      binary_search file, exclusions, target, file.pos + line.length, upper, closest_match
     else
       # Set upper to the start of the line
-      binary_search file, target, lower, file.pos, closest_match
+      binary_search file, exclusions, target, lower, file.pos, closest_match
     end
   end
 
@@ -111,6 +125,6 @@ module GiftCardSelector
   end
 
   def self.parse_line_amount(line)
-    line.split(INPUT_DELIMITER)[-1].to_i
+    line.split(DELIMITER)[-1].to_i
   end
 end
