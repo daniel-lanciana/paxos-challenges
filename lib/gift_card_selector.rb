@@ -51,13 +51,14 @@ module GiftCardSelector
 
     results = []
     min_amount = GiftInputParser.parse_line_amount(file.gets)
+    binary_search = FileBinarySearch.new(file: file, parser: GiftInputParser)
 
     (1..max_outputs).each do |index|
       target = calculate_target_amount(results, amount, min_outputs, index,
                                        min_amount, max_amount)
 
-      result = FileBinarySearch.binary_search(file, GiftInputParser,
-                                              exclusions, target)
+      result = binary_search.find(exclusions, target)
+
       if result
         results << build_gift_obj_from_line(result) &&
           exclusions << result
