@@ -11,8 +11,8 @@ module BinaryWildcardReplacer
   def self.iterate_all_combinations(input_array, wildcards)
     (0..zero_based_iteration_count(wildcards)).each_with_index.each do |index|
       puts replace_wildcards(input_array,
-                        wildcards,
-                        number_as_binary_array(index, wildcards.length))
+                             wildcards,
+                             number_as_binary_array(index, wildcards.length))
     end
   end
 

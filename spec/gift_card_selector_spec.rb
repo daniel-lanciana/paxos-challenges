@@ -51,10 +51,9 @@ describe '#gift_card_selector' do
     end
   end
 
-  # TODO: not working
-  # describe 'when optimal solution is in the middle' do
-  #   it 'should find 2 matches with no remainder' do
-  #     expect(GiftCardSelector.select(input_path_2, 97)).to eq('Detergent 48, Headphones 49')
-  #   end
-  # end
+  describe 'when optimal solution is in the middle' do
+    it 'should find 2 matches with no remainder' do
+      expect(GiftCardSelector.select(input_path_2, 97)).to eq('Detergent 48, Headphones 49')
+    end
+  end
 end
