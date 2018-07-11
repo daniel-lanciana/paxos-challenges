@@ -19,9 +19,9 @@ end
 task :select_gifts, [:file_path, :balance, :max_gifts] do |_task, args|
   running_time = Benchmark.realtime do
     if args[:max_gifts]
-      GiftCardSelector.select args[:file_path], args[:balance], args[:max_gifts].to_i
+      puts GiftCardSelector.select args[:file_path], args[:balance], args[:max_gifts].to_i
     else
-      GiftCardSelector.select args[:file_path], args[:balance]
+      puts GiftCardSelector.select args[:file_path], args[:balance]
     end
   end
 

@@ -24,7 +24,7 @@ module GiftCardSelector
       gifts << result if result
     end
 
-    puts gifts.count == max_gifts ? gifts.reverse.map { |gift| gift[:label] }.join(', ') : ERROR_MSG
+    gifts.count == max_gifts ? gifts.reverse.map { |gift| gift[:label] }.join(', ') : ERROR_MSG
   end
 
   def self.open_file(path)
