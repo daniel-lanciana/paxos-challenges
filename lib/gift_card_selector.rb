@@ -26,7 +26,7 @@ module GiftCardSelector
 
       result = binary_search(file, ideal_amount)
 
-      gifts << result if result
+      gifts << build_gift_obj_from_line(result) if result
     end
 
     gifts.count == max_gifts ? gifts.reverse.map { |gift| gift[:label] }.join(', ') : ERROR_MSG
@@ -38,38 +38,39 @@ module GiftCardSelector
     puts "Couldn't open file '#{"#{Dir.pwd}/#{path}"}'...please check the path"
   end
 
-  def self.binary_search(file, target, lower=0, upper=file.size, closest_line=nil)
+  def self.binary_search(file, target, lower=0, upper=file.size, closest_match=nil)
+    return closest_match if end_of_file_reached?(lower, upper)
+
     line = get_middle_line!(file, lower, upper)
     line_amount = parse_line_amount(line)
 
-    closest_line = line if line_amount <= target
-
-    if line_amount < target
+    if line_amount == target
+      return line
+    elsif line_amount < target
+      closest_match = line
       # Set lower to the end of the line
-      lower = file.pos + line.length
-    elsif line_amount > target
+      binary_search file, target, file.pos + line.length, upper, closest_match
+    else
       # Set upper to the start of the line
-      upper = file.pos
+      binary_search file, target, lower, file.pos, closest_match
     end
+  end
 
-    # trying to divide the first line
-    # return nil if lower == before_lower and upper == before_upper
-    return nil if upper < line.length
+  def self.end_of_file_reached?(lower, upper)
+    # number of bits in file may be uneven, so allow buffer of the minimum gift
+    # entry (e.g. "a, 1\n")
+    upper - lower <= MIN_LINE_LENGTH
+  end
 
-    # number of bits in file may be uneven, so allow buffer
-    if ((upper - lower) <= MIN_LINE_LENGTH) || (line_amount == target)
-      return {
-          label: closest_line.tr(',', '').strip,
-          amount: parse_line_amount(closest_line)
-      }
-    end
-
-    binary_search file, target, lower, upper, closest_line
+  def self.build_gift_obj_from_line(line)
+    {
+        label: line.tr(',', '').strip,
+        amount: parse_line_amount(line)
+    }
   end
 
   def self.get_middle_line!(file, lower, upper)
-    goto_middle_of_file! file, lower, upper
-    get_full_line(file)
+    goto_middle_of_file!(file, lower, upper) and get_full_line(file)
   end
 
   def self.goto_middle_of_file!(file, lower, upper)
