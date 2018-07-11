@@ -34,7 +34,6 @@ module GiftCardSelector
   end
 
   def self.fetch_results(file, exclusions, amount, min_outputs, max_outputs, max_amount)
-
     results = []
     min_amount = GiftInputParser.parse_line_amount(file.gets)
 

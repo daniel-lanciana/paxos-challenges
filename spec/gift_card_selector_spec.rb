@@ -7,7 +7,7 @@ describe '#gift_card_selector' do
   let(:input_path_1) { 'spec/fixtures/gift_prices_input_1.txt' }
   let(:input_path_2) { 'spec/fixtures/gift_prices_input_2.txt' }
 
-  describe 'with 1 max guest' do
+  describe 'with 1 max gift' do
     it 'should find no matches' do
       expect(GiftCardSelector.select(input_path_1, 400, 1, 1)).to eq('Not possible')
     end
@@ -33,7 +33,7 @@ describe '#gift_card_selector' do
     end
   end
 
-  describe 'with 2 max guests' do
+  describe 'with 2 max gifts' do
     it 'should find no matches' do
       expect(GiftCardSelector.select(input_path_1, 1100)).to eq('Not possible')
     end
@@ -54,6 +54,16 @@ describe '#gift_card_selector' do
   describe 'when optimal solution is in the middle' do
     it 'should find 2 matches with no remainder' do
       expect(GiftCardSelector.select(input_path_2, 97)).to eq('Detergent 48, Headphones 49')
+    end
+  end
+
+  describe 'with 3 max gifts' do
+    it 'should find no matches' do
+      expect(GiftCardSelector.select(input_path_1, 1100, 2, 3)).to eq('Not possible')
+    end
+
+    it 'should find 3 matches with no remainder' do
+      expect(GiftCardSelector.select(input_path_1, 9000, 3, 3)).to eq('Detergent 1000, Earmuffs 2000, Bluetooth Stereo 6000')
     end
   end
 end

@@ -9,7 +9,7 @@ module FileBinarySearch
   DELIMITER = ', '
 
   def self.binary_search(file, parser, exclusions, target, lower = 0, upper = file.size,
-      closest_match = nil)
+                         closest_match = nil)
 
     return closest_match if end_of_file_reached?(lower, upper)
 
