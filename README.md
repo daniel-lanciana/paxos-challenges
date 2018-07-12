@@ -1,6 +1,83 @@
-# Wildcard Binary Counting
+# Gift Card Spending & Binary Wildcards
 
-### Problem
+## Problem #1 (Gift Card Spending)
+
+You have been given a gift card that is about to expire and you want to buy gifts for 2 friends.
+You want to spend the whole gift card, or if that’s not an option as close to the balance as
+possible. You have a list of sorted prices for a popular store that you know they both like to
+shop at. Your challenge is to find two distinct items in the list whose sum is minimally under (or
+equal to) the gift card balance.
+
+### Analysis
+
+#### Load file to memory
+
+- If we can store the entire input file in memory, we can check every pair combination O(N^2) and store the differences
+- A better approach would be to start from both ends of the array working inwards for O(N) time
+
+#### File too big for memory
+
+- If there are many rows, we need to seek (i.e. goto) positions within a data stream of the file
+- Scalable but more low-level complexity
+
+### Design
+
+Implemented my own binary search algorithm (rather than using a gem), which may be suboptimal but a good challenge.
+
+#### Steps
+
+1. Get first line gift amount (i.e. lowest)
+2. Binary search balance less lowest amount (i.e. target) by going to middle of file
+3. Step back until we get the current line
+4. Parse amount of current line
+5. If amount matches target, move to second match
+6. If amount less, record as closest match and step 2 of top-half of remaining file. If more, lower-half of file.
+7. Once top match found, lower starting amount and recursively search for more optimal solution
+8. Stop searching when starting target less than half the current optimal match
+9. Print output
+
+### Performance
+
+O(½N M log N) complexity -- where N is the number of lines and M are the number of gifts (i.e. 2). Additional ½N for 
+recursively checking past the first high/low match.
+
+### Features
+
+- TDD with 1, 2 and 3-gift tests
+- Variable min/max number of gifts
+- Separate files for search and parser (allowing implementation swap)
+- Binary search large files as data streams rather than loading entire file to memory
+  - Ruby file seek has no easy rewind to start of line (that I'm aware of), move position left until newline of start of file
+  - Halving position 
+- Finds the closest two-gift solution, even if central (e.g. balance 100, items [5, 40, 50, 80], result 90)
+- Start searching at (balance - first amount) for minimum of 2 matches
+- Functional programming, clean code, static code analysis (Rubocop)
+- Benchmarking in console
+
+For simplicity, no:
+- Input validation
+- Complex 3 gift matching (i.e. [A, C, D] > [A, B, F])
+
+### Run
+
+```sh
+# Clone from GitHub
+git clone git@github.com:daniel-lanciana/paxos-challenges.git
+cd paxos-challenges
+
+# Install dependencies
+bundle install
+
+# Run tests (optional)
+bundle exec rake spec
+
+# Run wildcard replacement
+bundle exec rake spend_gift_card['path/to/input.txt', 2500]
+```
+
+---
+
+## Problem #2 (Binary Wildcards)
 
 You are given a string composed of only 1s, 0s, and Xs. Write a program that will print out every possible combination where you replace the X with both
 0 and 1.
@@ -67,6 +144,7 @@ Implemented approach:
 - Functional programming (e.g. map)
 - Rubocop static code analysis
 - Input wildcards are case-insensitive
+- Benchmarking in console
 
 For simplicity, no:
 - Input validation
