@@ -26,6 +26,8 @@ class FileBinarySearch
     halve_and_find_again target, exclusions, lower, upper, closest_match
   end
 
+  private
+
   def halve_and_find_again(target, exclusions, lower, upper, closest_match)
     if @line_amount < target
       closest_match = @line unless exclusions.include?(@line)

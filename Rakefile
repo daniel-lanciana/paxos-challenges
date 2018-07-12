@@ -2,7 +2,7 @@
 
 require 'rspec/core/rake_task'
 require './lib/binary_wildcard_replacer'
-require './lib/gift_card_selector'
+require './lib/gift_card_spender'
 require 'benchmark'
 
 RSpec::Core::RakeTask.new(:spec)
@@ -22,15 +22,14 @@ task :select_gifts, [:file_path,
                      :max_outputs] do |_task, args|
 
   running_time = Benchmark.realtime do
-    if args[:max_gifts]
-      puts GiftCardSelector.select args[:file_path],
-                                   args[:balance],
-                                   args[:min_outputs].to_i,
-                                   args[:max_outputs].to_i
-    else
-      puts GiftCardSelector.select args[:file_path],
-                                   args[:balance]
-    end
+    min_outputs = args[:min_outputs] ? args[:min_outputs].to_i : nil
+    max_outputs = args[:max_outputs] ? args[:max_outputs].to_i : nil
+
+    gift_selector = GiftCardSpender.new(file_path: args[:file_path],
+                                        min_outputs: min_outputs,
+                                        max_outputs: max_outputs)
+
+    puts gift_selector.spend args[:balance].to_i
   end
 
   puts "\nRunning time: #{running_time.round(2)} seconds"
