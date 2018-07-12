@@ -1,0 +1,6 @@
+Candy Bar, 1
+Paperback Book, 5
+Detergent, 48
+Headphones, 49
+Earmuffs, 90
+Bluetooth Stereo, 100

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# Takes a string input and replaces each 'x' or 'X' with both '0' and '1' (over multiple lines)
+# Takes a string input and replaces each 'x' or 'X' with both '0' and '1' (over
+# multiple lines)
 module BinaryWildcardReplacer
   WILDCARD_CHARACTER = 'X'
 
@@ -11,13 +12,14 @@ module BinaryWildcardReplacer
   def self.iterate_all_combinations(input_array, wildcards)
     (0..zero_based_iteration_count(wildcards)).each_with_index.each do |index|
       puts replace_wildcards(input_array,
-                        wildcards,
-                        number_as_binary_array(index, wildcards.length))
+                             wildcards,
+                             number_as_binary_array(index, wildcards.length))
     end
   end
 
   def self.zero_based_iteration_count(wildcards)
-    # 2 ^ number of wildcards (e.g. 2 wildcards = 4 outputs [00, 01, 10, 11], 3 = 8)
+    # 2 ^ number of wildcards (e.g. 2 wildcards = 4 outputs [00, 01, 10, 11],
+    # 3 outputs = 8)
     2**wildcards.length - 1
   end
 
@@ -26,11 +28,16 @@ module BinaryWildcardReplacer
   end
 
   def self.wildcard_positions_to_array(input)
-    (0...input.length).find_all { |i| input.upcase[i, 1] == WILDCARD_CHARACTER }
+    (0...input.length).find_all do |i|
+      input.upcase[i, 1] == WILDCARD_CHARACTER
+    end
   end
 
   def self.replace_wildcards(input_array, positions, binary)
-    positions.each_with_index { |pos, index| input_array[pos] = binary[index] }
+    positions.each_with_index do |pos, index|
+      input_array[pos] = binary[index]
+    end
+
     input_array.join
   end
 end
